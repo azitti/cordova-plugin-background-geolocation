@@ -346,14 +346,12 @@
     }
 
     enabled = YES;
-    UIApplicationState state = [[UIApplication sharedApplication] applicationState];
     
     NSLog(@"- CDVBackgroundGeoLocation start (background? %ld)", (long)state);
     
     [locationManager startMonitoringSignificantLocationChanges];
-    if (state == UIApplicationStateBackground) {
-        [self setPace:isMoving];
-    }
+    [self setPace:isMoving];
+    
     CDVPluginResult* result = nil;
     result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
     [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
@@ -387,10 +385,7 @@
 {
     isMoving = [[command.arguments objectAtIndex: 0] boolValue];
     NSLog(@"- CDVBackgroundGeoLocation onPaceChange %d", isMoving);
-    UIApplicationState state = [[UIApplication sharedApplication] applicationState];
-    if (state == UIApplicationStateBackground) {
-        [self setPace:isMoving];
-    }
+    [self setPace:isMoving];
 }
 
 /**
@@ -537,9 +532,7 @@
 -(void) onResume:(NSNotification *) notification
 {
     NSLog(@"- CDVBackgroundGeoLocation resume");
-    if (enabled) {
-        [self stopUpdatingLocation];
-    }
+    [self stopUpdatingLocation];
 }
 
 
