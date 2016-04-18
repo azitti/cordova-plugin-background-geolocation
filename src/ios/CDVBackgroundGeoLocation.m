@@ -533,7 +533,6 @@
 -(void) onResume:(NSNotification *) notification
 {
     NSLog(@"- CDVBackgroundGeoLocation resume");
-    [self stopUpdatingLocation];
 }
 
 
@@ -851,12 +850,18 @@
 
 - (void) stopUpdatingLocation
 {
+    if (isDebugging) {
+        [self notify:@"stopUpdatingLocation"];
+    }
     [locationManager stopUpdatingLocation];
     isUpdatingLocation = NO;
 }
 
 - (void) startUpdatingLocation
 {
+    if (isDebugging) {
+        [self notify:@"startUpdatingLocation"];
+    }
     [locationManager startUpdatingLocation];
     isUpdatingLocation = YES;
 }
